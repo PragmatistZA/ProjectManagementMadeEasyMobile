@@ -13,7 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Main.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)pmmeWS .cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)pmmeWS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />
