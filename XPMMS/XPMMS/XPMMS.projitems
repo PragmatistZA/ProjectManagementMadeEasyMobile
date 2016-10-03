@@ -16,6 +16,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Main.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ProjectModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TaskModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TeamModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)pmmeWS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View.xaml.cs">

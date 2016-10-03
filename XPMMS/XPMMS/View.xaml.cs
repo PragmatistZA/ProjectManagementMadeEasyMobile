@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProjectManagementMadeEasyApp.Helpers;
-using ProjectManagementMadeEasyApp.Models;
 using Xamarin.Forms;
-using XPMMS.DAL;
 using Newtonsoft.Json;
+
+using XPMMS.DAL;
+using XPMMS.Models;
 
 namespace XPMMS
 {
