@@ -15,12 +15,11 @@ namespace XPMMS
         public Main ()
 		{
 			InitializeComponent ();
-            pmmeWS ws = new pmmeWS();
-            ws.BeginaddNewUser("Test3", "Test", "Test@test", "pass", delegate { }, new object());
+
             Label header = new Label
             {
                 Text = "Button",
-                Font = Font.BoldSystemFontOfSize(50),
+                Font = Font.SystemFontOfSize(50),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -34,7 +33,7 @@ namespace XPMMS
             };
             button.Clicked += OnButtonClicked;
 
-            Label label = new Label
+            label = new Label
             {
                 Text = "0 button clicks",
                 Font = Font.SystemFontOfSize(NamedSize.Large),
@@ -60,8 +59,7 @@ namespace XPMMS
         void OnButtonClicked(object sender, EventArgs e)
         {
             clickTotal += 1;
-            label.Text = String.Format("{0} button click{1}",
-                                       clickTotal, clickTotal == 1 ? "" : "s");
+            label.Text = $"{clickTotal} button click{(clickTotal == 1 ? "" : "s")}";
         }
     }
 }

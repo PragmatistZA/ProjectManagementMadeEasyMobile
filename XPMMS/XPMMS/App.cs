@@ -13,7 +13,7 @@ namespace XPMMS
 		public App ()
 		{
 			// The root page of your application
-			MainPage = new Main();
+			MainPage = new View();
 
 		}
 
