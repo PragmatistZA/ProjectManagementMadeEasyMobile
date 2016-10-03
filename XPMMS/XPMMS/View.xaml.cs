@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ProjectManagementMadeEasyApp.Helpers;
+using ProjectManagementMadeEasyApp.Models;
 using Xamarin.Forms;
+using XPMMS.DAL;
+using Newtonsoft.Json;
 
 namespace XPMMS
 {
@@ -1396,6 +1399,22 @@ namespace XPMMS
             nav.Children.Add(new Button { Text = "DashBoard" }, 1, 0);
 	        nav.Children.Add(new Button {Text = "About"}, 2, 0);
             nav.Children.Add(new Button { Text = "Contact" }, 3, 0);
+
+	        string test = WebService.VerifyUserLogin("sheldor@gmail.com", SHA1.Encode("Password"));
+            string test2 = WebService.AddNewUser("TestUser1", "TestUser1","testtest@gmail.com", SHA1.Encode("Password"));
+            string test3 = WebService.GetUser("sheldor@gmail.com");
+
+	        UserModel user = new UserModel();
+
+	        var jsonContent = test3;
+	        var users = JsonConvert.DeserializeObject<UserModel[]>(jsonContent,
+	            new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+
+            //var jsonContent = _ws.GetAllUsers();
+            //var users = JsonConvert.DeserializeObject<UserModel[]>(jsonContent,
+            //    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            //var userList = users.ToList();
+            //return userList;
 
             Content = new StackLayout
             {

@@ -7,8 +7,6 @@ namespace XPMMS
 {
     class LoginView
     {
-        private WebService _ws = new WebService();
-
         public LoginView()
         {
 
