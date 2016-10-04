@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using XPMMS.Pages;
 using static Xamarin.Forms.ImageSource;
 
 namespace XPMMS
@@ -108,6 +110,11 @@ namespace XPMMS
             gridMenu.Children.Add(new Label { Text = "Contact Us", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 0, 5);
             gridMenu.Children.Add(new Label { Text = "About Us", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 1, 5);
 
+            btnProfile.Clicked += BtnProfile_Clicked;
+            btnTeam.Clicked += BtnTeam_Clicked;
+            btnProject.Clicked += BtnProject_Clicked;
+            btnTasks.Clicked += BtnTasks_Clicked;
+            btnContact.Clicked += BtnContact_Clicked;
             btnAbout.Clicked += BtnAbout_Clicked;
 
             Label lbl = new Label {Text = ""};
@@ -124,57 +131,34 @@ namespace XPMMS
             }; 
         }
 
-        private static void BtnAbout_Clicked(object sender, EventArgs e)
+        async void BtnProfile_Clicked(object sender, EventArgs e)
         {
-            ContentPage page = new ContentPage();
+            
+        }
 
-            Label header = new Label
-            {
-                Text = "About Us",
-                TextColor = Color.White,
-                FontSize = 20,
-                MinimumHeightRequest = 0
-            };
-            Label headerDescription = new Label
-            {
-                Text = "We're a group of Information Technology students studying at North-West University, Potchefstroom Campus",
-                TextColor = Color.White,
-                FontSize = 15,
+        async void BtnTeam_Clicked(object sender, EventArgs e)
+        {
 
-                MinimumHeightRequest = 0
-            };
+        }
 
-            page.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+        async void BtnProject_Clicked(object sender, EventArgs e)
+        {
 
-            Picker picker = new Picker
-            {
-                Title = "PMME Navigation",
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
+        }
 
-            string[] navPages =
-            {
-                "Dashboard",
-                "About",
-                "Contact",
-                "Login",
-                "Register"
-            };
+        async void BtnTasks_Clicked(object sender, EventArgs e)
+        {
 
-            foreach (string navPage in navPages)
-            {
-                picker.Items.Add(navPage);
-            }
+        }
 
-            page.Content = new StackLayout
-            {
-                Children =
-                {
-                    header,
-                    headerDescription
-                }
-            };
+        async void BtnContact_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        async void BtnAbout_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Login());
         }
     }
 }
