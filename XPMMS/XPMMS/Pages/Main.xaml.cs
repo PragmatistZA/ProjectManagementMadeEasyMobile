@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
+//using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -133,32 +133,32 @@ namespace XPMMS
 
         async void BtnProfile_Clicked(object sender, EventArgs e)
         {
-            
+            await Navigation.PushAsync(new Profile());
         }
 
         async void BtnTeam_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new Team());
         }
 
         async void BtnProject_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new Project());
         }
 
         async void BtnTasks_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new Tasks());
         }
 
         async void BtnContact_Clicked(object sender, EventArgs e)
         {
-
+            //await Navigation.PushAsync();
         }
 
         async void BtnAbout_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Login());
+            await Navigation.PushAsync(new About());
         }
     }
 }
