@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using static pmmeWS;
-
 using Xamarin.Forms;
 
 namespace XPMMS
@@ -14,7 +12,7 @@ namespace XPMMS
 		public App ()
 		{
 			// The root page of your application
-			MainPage = new View();
+			MainPage = new Main();
 
 		}
 
