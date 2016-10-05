@@ -5,23 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using XPMMS.Models;
 
 namespace XPMMS.Pages
 {
 	public partial class Team : ContentPage
 	{
-		public Team ()
+	    private UserModel loggedInUser;
+
+		public Team (UserModel loggedInUser)
 		{
 			InitializeComponent ();
+		    this.loggedInUser = loggedInUser;
 		    SetPage();
 		}
 
 	    private void SetPage()
 	    {
-            ToolbarItem btn1Item = new ToolbarItem
-            {
-                Text = "Test"
-            };
 
             Label header = new Label
             {

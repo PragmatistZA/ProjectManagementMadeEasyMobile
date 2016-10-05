@@ -5,9 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using XPMMS.DAL;
+using XPMMS.Models;
 using XPMMS.Pages;
 using static Xamarin.Forms.ImageSource;
 
@@ -15,9 +17,14 @@ namespace XPMMS
 {
     public partial class Main : ContentPage
     {
+        private UserModel loggedInUser;
         public Main()
         {
             InitializeComponent();
+            // hard coded user login data
+            var jsonUserData = WebService.GetUser("sheldor@gmail.com");
+            var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            loggedInUser = users[0];
             setPage();
         }
 
@@ -74,6 +81,7 @@ namespace XPMMS
                 VerticalOptions = LayoutOptions.Start,
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
+
             gridMenu.Children.Add(btnProfile, 0, 0);
             gridMenu.Children.Add(btnTeam, 1, 0);
             gridMenu.Children.Add(new Label { Text = "Profile", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 0, 1);
@@ -96,7 +104,7 @@ namespace XPMMS
             btnContact.Clicked += BtnContact_Clicked;
             btnAbout.Clicked += BtnAbout_Clicked;
 
-            Label lbl = new Label {Text = ""};
+            Label lbl = new Label {Text = ""}; // until I figure out how to add padding underneath headers correctly....
 
             Content = new StackLayout
             {
@@ -110,32 +118,33 @@ namespace XPMMS
             }; 
         }
 
-        async void BtnProfile_Clicked(object sender, EventArgs e)
+        private async void BtnProfile_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new Profile());
         }
 
-        async void BtnTeam_Clicked(object sender, EventArgs e)
+        private async void BtnTeam_Clicked(object sender, EventArgs e)
         {
+
             await Navigation.PushAsync(new Team());
         }
 
-        async void BtnProject_Clicked(object sender, EventArgs e)
+        private async void BtnProject_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new Project());
         }
 
-        async void BtnTasks_Clicked(object sender, EventArgs e)
+        private async void BtnTasks_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new Tasks());
         }
 
-        async void BtnContact_Clicked(object sender, EventArgs e)
+        private async void BtnContact_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new Contact());
         }
 
-        async void BtnAbout_Clicked(object sender, EventArgs e)
+        private async void BtnAbout_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new About());
         }
