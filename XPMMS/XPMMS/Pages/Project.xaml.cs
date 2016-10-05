@@ -1,22 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using XPMMS.Models;
 
 namespace XPMMS.Pages
 {
 	public partial class Project : ContentPage
 	{
-		public Project ()
-		{
-			InitializeComponent ();
-		    SetPage();
-		}
+        private UserModel _user;
+        private UserModel[] _members;
+        private TeamModel _team;
+        private ProjectModel _project;
+        private TaskModel[] _tasks;
 
-	    private void SetPage()
+        public Project(UserModel user, UserModel[] members, TeamModel team, ProjectModel project, TaskModel[] tasks)
+        {
+            InitializeComponent();
+
+            _user = user;
+            _members = members;
+            _team = team;
+            _project = project;
+            _tasks = tasks;
+
+            SetPage();
+        }
+
+        private void SetPage()
 	    {
             ToolbarItem btn1Item = new ToolbarItem
             {
@@ -30,52 +45,8 @@ namespace XPMMS.Pages
                 FontSize = 20,
                 MinimumHeightRequest = 0
             };
-            Label headerDescription = new Label
-            {
-                Text = "Join an existing Team",
-                TextColor = Color.White,
-                FontSize = 20,
-
-                MinimumHeightRequest = 0
-            };
 
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
-
-            //BackgroundColor = Color.Black;
-
-            Picker picker = new Picker
-            {
-                Title = "PMME Navigation",
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-
-            string[] navPages =
-            {
-                "Dashboard",
-                "About",
-                "Contact",
-                "Login",
-                "Register"
-            };
-
-            foreach (string navPage in navPages)
-            {
-                picker.Items.Add(navPage);
-            }
-
-            Grid nav = new Grid
-            {
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-
-
-            };
-
-            nav.Children.Add(new Button { Text = "XPMME" }, 0, 0);
-            nav.Children.Add(new Button { Text = "DashBoard" }, 1, 0);
-            nav.Children.Add(new Button { Text = "About" }, 2, 0);
-            nav.Children.Add(new Button { Text = "Contact" }, 3, 0);
 
             Grid inputGrid = new Grid
             {
@@ -83,21 +54,26 @@ namespace XPMMS.Pages
                 HorizontalOptions = LayoutOptions.FillAndExpand,
             };
 
-            inputGrid.Children.Add(new Label { Text = "Project Name:" }, 0, 0);
-            inputGrid.Children.Add(new Label { Text = "MVC PHP/MySQL" }, 1, 0);
-            inputGrid.Children.Add(new Label { Text = "Project Description:" }, 0, 1);
-            inputGrid.Children.Add(new Label { Text = "Set up entire architecture for web app and web service integration." }, 1, 1);
-            inputGrid.Children.Add(new Label { Text = "Project Due Date:" }, 0, 2);
-            inputGrid.Children.Add(new Label { Text = "29-08-2016" }, 1, 2);
-            inputGrid.Children.Add(new Label { Text = "Project Manager:" }, 0, 3);
-            inputGrid.Children.Add(new Label { Text = "John Doe" }, 1, 3);
+            string manager = null;
+            foreach (UserModel user in _members)
+            {
+                if (_project.Proj_Manager_ID == user.User_ID)
+                    manager = user.First_Name + " " + user.Last_Name;
+            }
 
+            inputGrid.Children.Add(new Label { Text = "Project Name:" }, 0, 0);
+            inputGrid.Children.Add(new Label { Text = _project.Project_Name }, 1, 0);
+            inputGrid.Children.Add(new Label { Text = "Project Description:" }, 0, 1);
+            inputGrid.Children.Add(new Label { Text = _project.Proj_Desc }, 1, 1);
+            inputGrid.Children.Add(new Label { Text = "Project Due Date:" }, 0, 2);
+            inputGrid.Children.Add(new Label { Text = Convert.ToString(_project.Proj_Due, CultureInfo.CurrentCulture) }, 1, 2);
+            inputGrid.Children.Add(new Label { Text = "Project Manager:" }, 0, 3);
+            inputGrid.Children.Add(new Label { Text = manager }, 1, 3);
 
             Content = new StackLayout
             {
                 Children =
                 {
-                    picker,
                     header,
                     inputGrid
                 }

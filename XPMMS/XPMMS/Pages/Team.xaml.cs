@@ -42,22 +42,14 @@ namespace XPMMS.Pages
                 MinimumHeightRequest = 0
             };
 
-            //Label headerDescription = new Label
-            //{
-            //    Text = "Join an existing Team",
-            //    TextColor = Color.White,
-            //    FontSize = 20,
-
-            //    MinimumHeightRequest = 0
-            //};
 	        string leader = null;
-	        for (int i = 0; i < _members.Length; i++)
+	        foreach (UserModel user in _members)
 	        {
-	            if (_team.Team_Leader == _members[i].User_ID)
-	                leader = _members[i].First_Name + " " + _members[i].Last_Name;
+	            if (_team.Team_Leader == user.User_ID)
+	                leader = user.First_Name + " " + user.Last_Name;
 	        }
 
-            Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+	        Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
             Grid inputGrid = new Grid
             {
@@ -80,14 +72,6 @@ namespace XPMMS.Pages
 	                count++;
 	            }
             }
-
-            //inputGrid.Children.Add(new Label { Text = "Member Name:" }, 0, 2);
-            //inputGrid.Children.Add(new Label { Text = "James Young" }, 1, 2);
-            //inputGrid.Children.Add(new Label { Text = "Member Name:" }, 0, 3);
-            //inputGrid.Children.Add(new Label { Text = "Rica Page" }, 1, 3);
-            //inputGrid.Children.Add(new Label { Text = "Member Name:" }, 0, 4);
-            //inputGrid.Children.Add(new Label { Text = "David O'Reilly" }, 1, 4);
-
 
             Content = new StackLayout
             {
