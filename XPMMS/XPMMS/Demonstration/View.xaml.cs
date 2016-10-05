@@ -1272,7 +1272,7 @@ namespace XPMMS
 	            {"Aqua", Color.Aqua},
 	            {"Black", Color.Black},
 	            {"Blue", Color.Blue},
-	            {"Fuschia", Color.Fuschia},
+	            {"Fuschia", Color.Fuchsia},
 	            {"Gray", Color.Gray},
 	            {"Green", Color.Green},
 	            {"Lime", Color.Lime},

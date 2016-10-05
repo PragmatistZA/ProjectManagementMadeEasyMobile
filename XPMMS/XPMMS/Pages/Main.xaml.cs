@@ -33,27 +33,6 @@ namespace XPMMS
 
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
-            Picker picker = new Picker
-            {
-                Title = "PMME Navigation",
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-
-            string[] navPages =
-            {
-                "Dashboard",
-                "About",
-                "Contact",
-                "Login",
-                "Register"
-            };
-
-            foreach (string navPage in navPages)
-            {
-                picker.Items.Add(navPage);
-            }
-
             Button btnProfile = new Button
             {
                 BackgroundColor = Color.White,
@@ -153,7 +132,7 @@ namespace XPMMS
 
         async void BtnContact_Clicked(object sender, EventArgs e)
         {
-            //await Navigation.PushAsync();
+            await Navigation.PushAsync(new Contact());
         }
 
         async void BtnAbout_Clicked(object sender, EventArgs e)
