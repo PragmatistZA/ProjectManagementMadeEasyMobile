@@ -103,6 +103,7 @@ namespace XPMMS.Pages
             _team = team;
 
             await Navigation.PushAsync(new Team(_user, _members, _team, _project, _tasks));
+            Navigation.RemovePage(this);
         }
 
         private async void BtnJoinTeam_Clicked(object sender, EventArgs e)
@@ -111,6 +112,7 @@ namespace XPMMS.Pages
             var teams = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamListContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
             await Navigation.PushAsync(new ListTeams(teams, _user, _members, _team, _project, _tasks));
+            Navigation.RemovePage(this);
         }
     }
 }

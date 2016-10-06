@@ -14,7 +14,6 @@ namespace XPMMS
 		{
 			// The root page of your application
 			MainPage = new NavigationPage(new Main()); // Love this
-
 		}
 
 		protected override void OnStart ()

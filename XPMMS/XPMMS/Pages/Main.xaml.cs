@@ -21,7 +21,12 @@ namespace XPMMS
 {
     public partial class Main : ContentPage
     {
-        private readonly UserModel _loggedInUser;
+        private UserModel _user;
+        private TeamModel team;
+        private ProjectModel project;
+        private TaskModel[] tasks;
+        private UserModel[] members;
+
         public Main()
         {
             InitializeComponent();
@@ -29,7 +34,7 @@ namespace XPMMS
             // hard coded user login data
             var jsonUserData = WebService.GetUser("noteam@gmail.com");
             var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            _loggedInUser = users[0];
+            _user = users[0];
             setPage();
         }
 
@@ -125,7 +130,11 @@ namespace XPMMS
 
         private async void BtnProfile_Clicked(object sender, EventArgs e)
         {
-            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_loggedInUser.Team_ID));
+            var jsonUserData = WebService.GetUser("noteam@gmail.com");
+            var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            _user = users[0];
+
+            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
             var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             TeamModel team = teamData[0];
 
@@ -149,17 +158,20 @@ namespace XPMMS
             var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(team.Team_ID));
             var members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-            await Navigation.PushAsync(new Profile(_loggedInUser, members, team, project, tasks));
+            await Navigation.PushAsync(new Profile(_user, members, team, project, tasks));
         }
 
         private async void BtnTeam_Clicked(object sender, EventArgs e)
         {
-            TeamModel team;
-            ProjectModel project;
-            TaskModel[] tasks;
-            UserModel[] members;
+            var jsonUserData = WebService.GetUser("noteam@gmail.com");
+            var user = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            _user = user[0];
 
-            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_loggedInUser.Team_ID));
+            var jsonUsersData = WebService.GetUser("noteam@gmail.com");
+            var _members = JsonConvert.DeserializeObject<UserModel[]>(jsonUsersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            members = _members;
+
+            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
             if (jsonTeamContent == "[]")
             {
                 team = null;
@@ -167,7 +179,7 @@ namespace XPMMS
                 project = null;
                 tasks = null;
 
-                await Navigation.PushAsync(new AddTeam(_loggedInUser, members, team, project, tasks));
+                await Navigation.PushAsync(new AddTeam(_user, members, team, project, tasks));
             }
             else
             {
@@ -214,14 +226,18 @@ namespace XPMMS
                 }
                 else members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-                await Navigation.PushAsync(new Team(_loggedInUser, members, team, project, tasks));
+                await Navigation.PushAsync(new Team(_user, members, team, project, tasks));
             }
 
         }
 
         private async void BtnProject_Clicked(object sender, EventArgs e)
         {
-            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_loggedInUser.Team_ID));
+            var jsonUserData = WebService.GetUser("noteam@gmail.com");
+            var user = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            _user = user[0];
+
+            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
             var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             TeamModel team = teamData[0];
 
@@ -245,12 +261,16 @@ namespace XPMMS
             var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(team.Team_ID));
             var members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-            await Navigation.PushAsync(new Project(_loggedInUser, members, team, project, tasks));
+            await Navigation.PushAsync(new Project(_user, members, team, project, tasks));
         }
 
         private async void BtnTasks_Clicked(object sender, EventArgs e)
         {
-            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_loggedInUser.Team_ID));
+            var jsonUserData = WebService.GetUser("noteam@gmail.com");
+            var user = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            _user = user[0];
+
+            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
             var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             TeamModel team = teamData[0];
 
@@ -274,7 +294,7 @@ namespace XPMMS
             var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(team.Team_ID));
             var members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-            await Navigation.PushAsync(new Tasks(_loggedInUser, members, team, project, tasks));
+            await Navigation.PushAsync(new Tasks(_user, members, team, project, tasks));
         }
 
         private async void BtnContact_Clicked(object sender, EventArgs e)
