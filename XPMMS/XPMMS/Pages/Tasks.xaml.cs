@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using XPMMS.Models;
 
@@ -65,12 +64,18 @@ namespace XPMMS.Pages
                 count += 5;
             }
 
+            Button btnAddTask = new Button
+            {
+                Text = "Add New Task"
+            };
+
             Content = new StackLayout
             {
                 Children =
                 {
                     header,
-                    inputGrid
+                    inputGrid,
+                    btnAddTask
                 }
             };
         }
