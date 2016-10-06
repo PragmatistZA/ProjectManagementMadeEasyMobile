@@ -14,6 +14,7 @@ using XPMMS.Pages;
 using static Xamarin.Forms.ImageSource;
 
 //TODO: Fix font sizes and spacing to fit all screens and platforms
+//TODO: Add getData() method to handle check for existing team, etc, and set instance variables to be passed in each page case
 
 namespace XPMMS
 {
@@ -25,7 +26,7 @@ namespace XPMMS
             InitializeComponent();
 
             // hard coded user login data
-            var jsonUserData = WebService.GetUser("sheldor@gmail.com");
+            var jsonUserData = WebService.GetUser("noteam@gmail.com");
             var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             _loggedInUser = users[0];
             setPage();
@@ -151,32 +152,50 @@ namespace XPMMS
         }
 
         private async void BtnTeam_Clicked(object sender, EventArgs e)
-        {   
+        {
+            TeamModel team;
+            ProjectModel project;
+            TaskModel[] tasks;
+            UserModel[] members;
+
             var jsonTeamContent = WebService.GetTeam(Convert.ToString(_loggedInUser.Team_ID));
-            var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            TeamModel team = teamData[0];
-
-            var jsonProjectData = WebService.GetTeamProjects(Convert.ToString(team.Team_Name));
-            var projectData = JsonConvert.DeserializeObject<ProjectModel[]>(jsonProjectData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            ProjectModel project = projectData[0];
-
-            var jsonTasksData = WebService.GetAllTasks();
-            var tasks = JsonConvert.DeserializeObject<TaskModel[]>(jsonTasksData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-
-            List<TaskModel> taskList = new List<TaskModel>();
-
-            foreach (var task in tasks)
+            if (jsonTeamContent == "[]")
             {
-                if (task.Project_ID == team.Proj_ID)
-                    taskList.Add(task);
+                team = null;
+                members = null;
+                project = null;
+                tasks = null;
+
+                await Navigation.PushAsync(new AddTeam(_loggedInUser, members, team, project, tasks));
             }
-            tasks = taskList.ToArray();
+            else
+            {
+                var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                team = teamData[0];
+
+                var jsonProjectData = WebService.GetTeamProjects(Convert.ToString(team.Team_Name));
+                var projectData = JsonConvert.DeserializeObject<ProjectModel[]>(jsonProjectData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                project = projectData[0];
+
+                var jsonTasksData = WebService.GetAllTasks();
+                tasks = JsonConvert.DeserializeObject<TaskModel[]>(jsonTasksData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+                List<TaskModel> taskList = new List<TaskModel>();
+
+                foreach (TaskModel task in tasks)
+                {
+                    if (task.Project_ID == team.Proj_ID)
+                        taskList.Add(task);
+                }
+                tasks = taskList.ToArray();
 
 
-            var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(team.Team_ID));
-            var members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(team.Team_ID));
+                members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-            await Navigation.PushAsync(new Team(_loggedInUser, members, team, project, tasks));
+                await Navigation.PushAsync(new Team(_loggedInUser, members, team, project, tasks));
+            }
+
         }
 
         private async void BtnProject_Clicked(object sender, EventArgs e)
