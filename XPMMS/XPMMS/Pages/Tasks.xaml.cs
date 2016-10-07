@@ -48,26 +48,32 @@ namespace XPMMS.Pages
                 HorizontalOptions = LayoutOptions.FillAndExpand,
             };
 
-            int count = 0;
-            foreach (TaskModel task in _tasks)
+            if (_tasks != null)
             {
-                if (_project.Proj_ID != task.Project_ID) continue;
-                inputGrid.Children.Add(new Label { Text = "Task Description:" }, 0, count);
-                inputGrid.Children.Add(new Label { Text = task.Task_Desc }, 1, count);
-                inputGrid.Children.Add(new Label { Text = "Hours Required:" }, 0, count + 1);
-                inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Time_Req) }, 1, count + 1);
-                inputGrid.Children.Add(new Label { Text = "Date Created:" }, 0, count + 2);
-                inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Task_Created, CultureInfo.CurrentCulture) }, 1, count + 2);
-                inputGrid.Children.Add(new Label { Text = "Date Due By:" }, 0, count + 3);
-                inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Task_Due, CultureInfo.CurrentCulture) }, 1, count + 3);
-                inputGrid.Children.Add(new Button { Text = "Delete" }, 1, count + 4);
-                count += 5;
+                 int count = 0;
+                 foreach (TaskModel task in _tasks)
+                 {
+                    if (_project.Proj_ID != task.Project_ID) continue;
+                    inputGrid.Children.Add(new Label { Text = "Task Description:" }, 0, count);
+                    inputGrid.Children.Add(new Label { Text = task.Task_Desc }, 1, count);
+                    inputGrid.Children.Add(new Label { Text = "Hours Required:" }, 0, count + 1);
+                    inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Time_Req) }, 1, count + 1);
+                    inputGrid.Children.Add(new Label { Text = "Date Created:" }, 0, count + 2);
+                    inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Task_Created, CultureInfo.CurrentCulture) }, 1, count + 2);
+                    inputGrid.Children.Add(new Label { Text = "Date Due By:" }, 0, count + 3);
+                    inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Task_Due, CultureInfo.CurrentCulture) }, 1, count + 3);
+                    inputGrid.Children.Add(new Button { Text = "Delete" }, 1, count + 4);
+                    count += 5;
+                 }
             }
+
 
             Button btnAddTask = new Button
             {
                 Text = "Add New Task"
             };
+
+            btnAddTask.Clicked += BtnAddTask_Clicked;
 
             Content = new StackLayout
             {
@@ -79,5 +85,12 @@ namespace XPMMS.Pages
                 }
             };
         }
-	}
+
+        private async void BtnAddTask_Clicked(object sender, EventArgs eventArgs)
+        {
+            await Navigation.PushAsync(new AddTask(_user, _members, _team, _project, 
+                _tasks), false);
+            Navigation.RemovePage(this);
+        }
+    }
 }
