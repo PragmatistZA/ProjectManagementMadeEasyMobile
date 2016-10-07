@@ -33,11 +33,6 @@ namespace XPMMS.Pages
 
         private void SetPage()
 	    {
-            ToolbarItem btn1Item = new ToolbarItem
-            {
-                Text = "Test"
-            };
-
             Label header = new Label
             {
                 Text = "My Project",
