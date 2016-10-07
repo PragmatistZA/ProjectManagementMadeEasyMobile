@@ -335,19 +335,20 @@ namespace XPMMS
                             tasks = null;
                         else tasks = taskList.ToArray();
                     }
-                }
 
-                var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(team.Team_ID));
-                if (jsonMembersData == "[]")
-                {
-                    members = null;
-                }
-                else
-                    members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData,
-                        new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 
-                await Navigation.PushAsync(new Project(_user, members, team, project, tasks), false);
+                    var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(team.Team_ID));
+                    if (jsonMembersData == "[]")
+                    {
+                        members = null;
+                    }
+                    else
+                        members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData,
+                            new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+
+                    await Navigation.PushAsync(new Project(_user, members, team, project, tasks), false);
                     // test to see if no animation looks better
+                }
             }
         }
 
