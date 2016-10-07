@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 using XPMMS.DAL;
 using XPMMS.Models;
@@ -91,9 +92,57 @@ namespace XPMMS.Pages
 
             WebService.AddUserToTeam(_user.Email, teamNameLabels[teamNameIndex].Text);
 
-            await Navigation.PopAsync();
-            await Navigation.PopAsync();
+            var jsonUserData = WebService.GetUser(_user.Email);
+            var user = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            _user = user[0];
+
+            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
+            var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            _team = teamData[0];
+
+            var jsonProjectData = WebService.GetTeamProjects(Convert.ToString(_team.Team_Name));
+            if (jsonProjectData == "[]")
+            {
+                _project = null;
+                _tasks = null;
+            }
+            else
+            {
+                var projectData = JsonConvert.DeserializeObject<ProjectModel[]>(jsonProjectData,
+                    new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+                _project = projectData[0];
+
+                var jsonTasksData = WebService.GetAllTasks();
+                if (jsonTasksData == null)
+                {
+                    _tasks = null;
+                }
+                else
+                {
+                    _tasks = JsonConvert.DeserializeObject<TaskModel[]>(jsonTasksData,
+                        new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+
+                    List<TaskModel> taskList = new List<TaskModel>();
+
+                    foreach (TaskModel task in _tasks)
+                    {
+                        if (task.Project_ID == _team.Proj_ID)
+                            taskList.Add(task);
+                    }
+                    if (taskList.Count == 0)
+                        _tasks = null;
+                    else _tasks = taskList.ToArray();
+                }
+            }
+            var jsonMembersData = WebService.GetTeamMembers(Convert.ToString(_team.Team_ID));
+            if (jsonMembersData == "[]")
+            {
+                _members = null;
+            }
+            else _members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
             await Navigation.PushAsync(new Team(_user, _members, _team, _project, _tasks));
+            Navigation.RemovePage(this);
         }
     }
 }

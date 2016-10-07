@@ -226,7 +226,7 @@ namespace XPMMS
                 }
                 else members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-                await Navigation.PushAsync(new Team(_user, members, team, project, tasks));
+                await Navigation.PushAsync(new Team(_user, members, team, project, tasks), false); // test to see if no animation looks better
             }
 
         }
