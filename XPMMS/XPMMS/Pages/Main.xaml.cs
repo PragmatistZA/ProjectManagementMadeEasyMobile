@@ -33,7 +33,7 @@ namespace XPMMS
             InitializeComponent();
 
             // hard coded user login data
-            var jsonUserData = WebService.GetUser("shaun.cilliers@gmail.com");//("noteam@gmail.com");
+            var jsonUserData = WebService.GetUser("shaun.cilliers@gmail.com");
             var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             _user = users[0];
             setPage();
