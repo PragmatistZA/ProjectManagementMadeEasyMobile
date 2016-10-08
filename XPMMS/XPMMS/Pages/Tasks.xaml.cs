@@ -73,9 +73,9 @@ namespace XPMMS.Pages
                     inputGrid.Children.Add(new Label { Text = "Hours Required:" }, 0, count + 1);
                     inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Time_Req) }, 1, count + 1);
                     inputGrid.Children.Add(new Label { Text = "Date Created:" }, 0, count + 2);
-                    inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Task_Created, CultureInfo.CurrentCulture) }, 1, count + 2);
+                    inputGrid.Children.Add(new Label { Text = task.Task_Created.ToString("yyyy-MM-dd") }, 1, count + 2);
                     inputGrid.Children.Add(new Label { Text = "Date Due By:" }, 0, count + 3);
-                    inputGrid.Children.Add(new Label { Text = Convert.ToString(task.Task_Due, CultureInfo.CurrentCulture) }, 1, count + 3);
+                    inputGrid.Children.Add(new Label { Text = task.Task_Due.ToString("yyyy-MM-dd") }, 1, count + 3);
                     inputGrid.Children.Add(btnDelete, 1, count + 4);
                     deleteButtons.Add(btnDelete);
                     currentTasks.Add(task);

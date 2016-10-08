@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace XPMMS.Pages
 
         private Editor editTaskDesc;
         private Editor editTimeReq;
-        private Editor editDueBy;
+        private DatePicker editDueBy;
 
         public AddTask(UserModel user, UserModel[] members, TeamModel team, ProjectModel project, TaskModel[] tasks)
         {
@@ -66,10 +67,11 @@ namespace XPMMS.Pages
 	            Text = ""
 	        };
 
-	        editDueBy = new Editor
+	        editDueBy = new DatePicker
 	        {
-	            Text = ""
-	        };
+                Format = "D",
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
 
             Grid inputGrid = new Grid
             {
@@ -83,10 +85,11 @@ namespace XPMMS.Pages
             inputGrid.Children.Add(editTimeReq, 1, 1);
             inputGrid.Children.Add(new Label { Text = "Due By:" }, 0, 2);
             inputGrid.Children.Add(editDueBy, 1, 2);
-
             inputGrid.Children.Add(btnCreateTask, 1, 3);
 
-	        btnCreateTask.Clicked += BtnCreateTask_Clicked;
+
+
+            btnCreateTask.Clicked += BtnCreateTask_Clicked;
 
             Content = new StackLayout
             {
@@ -100,7 +103,7 @@ namespace XPMMS.Pages
 
         private async void BtnCreateTask_Clicked(object sender, EventArgs e)
         {
-            WebService.AddTask(Convert.ToString(_project.Proj_ID), editTaskDesc.Text, editTimeReq.Text, DateTime.Today.ToString("yyyy-MM-dd"), editDueBy.Text);
+            WebService.AddTask(Convert.ToString(_project.Proj_ID), editTaskDesc.Text, editTimeReq.Text, DateTime.Today.ToString("yyyy-MM-dd"), editDueBy.Date.ToString("yyyy-MM-dd"));
 
             var jsonTasksData = WebService.GetAllTasks();
             _tasks = JsonConvert.DeserializeObject<TaskModel[]>(jsonTasksData, 
