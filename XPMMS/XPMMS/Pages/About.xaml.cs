@@ -36,27 +36,6 @@ namespace XPMMS.Pages
 
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
-            Picker picker = new Picker
-            {
-                Title = "PMME Navigation",
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-
-            string[] navPages =
-            {
-                "Dashboard",
-                "About",
-                "Contact",
-                "Login",
-                "Register"
-            };
-
-            foreach (string navPage in navPages)
-            {
-                picker.Items.Add(navPage);
-            }
-
             Content = new StackLayout
             {
                 Children =

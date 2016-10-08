@@ -1,38 +1,34 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using XPMMS.DAL;
-using XPMMS.Models;
-
 using Xamarin.Forms;
-using System;
-
+using XPMMS.DAL;
 namespace XPMMS.Pages
 {
-	public partial class Login : ContentPage
-	{
-        private Button _btnLogin;
+    public partial class Register : ContentPage
+    {
         private Button _btnRegister;
+        private Editor _userName;
+        private Editor _userSurname;
         private Editor _userEmail;
         private Entry _userPassword;
-
-        public Login()
+        private Entry _userConfirmPassword;
+        public Register()
         {
             InitializeComponent();
             SetPage();
         }
-
         private void SetPage()
-	    {
+        {
             ToolbarItem btn1Item = new ToolbarItem
             {
                 Text = "Test"
             };
-
             Label header = new Label
             {
-                Text = "Log in",
+                Text = "Register",
                 TextColor = Color.White,
                 FontSize = 20,
                 MinimumHeightRequest = 0
@@ -42,21 +38,16 @@ namespace XPMMS.Pages
                 Text = "A mobile application tool designed to make projects much more bearable.",
                 TextColor = Color.White,
                 FontSize = 15,
-
                 MinimumHeightRequest = 0
             };
-
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
-
             //BackgroundColor = Color.Black;
-
             Picker picker = new Picker
             {
                 Title = "PMME Navigation",
                 VerticalOptions = LayoutOptions.Start,
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
-
             string[] navPages =
             {
                 "Dashboard",
@@ -65,45 +56,42 @@ namespace XPMMS.Pages
                 "Login",
                 "Register"
             };
-
             foreach (string navPage in navPages)
             {
                 picker.Items.Add(navPage);
             }
-
             Grid nav = new Grid
             {
                 VerticalOptions = LayoutOptions.Start,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-
-
             };
-
             nav.Children.Add(new Button { Text = "XPMME" }, 0, 0);
             nav.Children.Add(new Button { Text = "DashBoard" }, 1, 0);
             nav.Children.Add(new Button { Text = "About" }, 2, 0);
             nav.Children.Add(new Button { Text = "Contact" }, 3, 0);
-
             Grid inputGrid = new Grid
             {
                 VerticalOptions = LayoutOptions.Start,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
             };
-
-            _userEmail = new Editor { Text = "cool@gmail.com" };
-            _userPassword = new Entry { Text = "Password", IsPassword = true };
-            _btnLogin = new Button { Text = "Login" };
             _btnRegister = new Button { Text = "Register" };
-            _btnLogin.Clicked += BtnLogin_Clicked;
+            _userName = new Editor { Text = "John" };
+            _userSurname = new Editor { Text = "Doe" };
+            _userEmail = new Editor { Text = "john@gmail.com" };
+            _userPassword = new Entry { Text = "Password", IsPassword = true };
+            _userConfirmPassword = new Entry { Text = "Password", IsPassword = true };
             _btnRegister.Clicked += BtnRegister_Clicked;
-
-            inputGrid.Children.Add(new Label { Text = "Email:" }, 0, 0);
-            inputGrid.Children.Add(_userEmail, 1, 0);
-            inputGrid.Children.Add(new Label { Text = "Password:" }, 0, 1);
-            inputGrid.Children.Add(_userPassword, 1, 1);
-            inputGrid.Children.Add(_btnLogin, 1, 2);
-            inputGrid.Children.Add(_btnRegister, 1, 3);
-
+            inputGrid.Children.Add(new Label { Text = "First Name:" }, 0, 0);
+            inputGrid.Children.Add(_userName, 1, 0);
+            inputGrid.Children.Add(new Label { Text = "Last Name:" }, 0, 1);
+            inputGrid.Children.Add(_userSurname, 1, 1);
+            inputGrid.Children.Add(new Label { Text = "Email:" }, 0, 2);
+            inputGrid.Children.Add(_userEmail, 1, 2);
+            inputGrid.Children.Add(new Label { Text = "Password:" }, 0, 3);
+            inputGrid.Children.Add(_userPassword, 1, 3);
+            inputGrid.Children.Add(new Label { Text = "Confirm password:" }, 0, 4);
+            inputGrid.Children.Add(_userConfirmPassword, 1, 4);
+            inputGrid.Children.Add(_btnRegister, 1, 5);
             Content = new StackLayout
             {
                 Children =
@@ -114,26 +102,18 @@ namespace XPMMS.Pages
                 }
             };
         }
-
-        private async void BtnLogin_Clicked(object sender, EventArgs e)
+        public async void BtnRegister_Clicked(object sender, EventArgs e)
         {
-            var jsonResult = WebService.VerifyUserLogin(_userEmail.Text, _userPassword.Text);
-            if (jsonResult != "Incorrect")
+            if (_userPassword.Text == _userConfirmPassword.Text)
             {
-                await DisplayAlert("Alert", jsonResult, "OK");
-                UserLogin.UserEmail = _userEmail.Text;
-                App.Current.MainPage = new NavigationPage(new Main());
+                WebService.AddNewUser(_userName.Text, _userSurname.Text, _userEmail.Text, _userPassword.Text);
+                await Navigation.PopAsync();
             }
             else
             {
-                await DisplayAlert("Alert", jsonResult, "OK");
+                await DisplayAlert("Alert", "Passwords don't match", "OK");
             }
 
         }
-        private async void BtnRegister_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new Register());
-        }
     }
 }
-

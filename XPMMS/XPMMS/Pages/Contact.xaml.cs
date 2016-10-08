@@ -91,39 +91,12 @@ namespace XPMMS.Pages
                 MinimumHeightRequest = 0
             };
 
-            Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
-
-            //BackgroundColor = Color.Black;
-
-            Picker picker = new Picker
-            {
-                Title = "PMME Navigation",
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-
-            string[] navPages =
-            {
-                "Dashboard",
-                "About",
-                "Contact",
-                "Login",
-                "Register"
-            };
-
-            foreach (string navPage in navPages)
-            {
-                picker.Items.Add(navPage);
-            }
-
-
-
+            Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);      
 
             Content = new StackLayout
             {
                 Children =
                 {
-                    picker,
                     header,
                     lbl1,
                     lbl2,

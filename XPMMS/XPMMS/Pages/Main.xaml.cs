@@ -28,12 +28,14 @@ namespace XPMMS
         private TaskModel[] tasks;
         private UserModel[] members;
 
+        private string testLoginEmail = UserLogin.UserEmail;
+
         public Main()
         {
             InitializeComponent();
 
             // hard coded user login data
-            var jsonUserData = WebService.GetUser("shaun.cilliers@gmail.com");
+            var jsonUserData = WebService.GetUser(UserLogin.UserEmail);
             var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             _user = users[0];
             setPage();
@@ -135,9 +137,7 @@ namespace XPMMS
             var user = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             _user = user[0];
 
-            await Navigation.PushAsync(new Profile(_user), false);
-            // test to see if no animation looks better
-            
+            await Navigation.PushAsync(new Profile(_user));  
         }
 
         private async void BtnTeam_Clicked(object sender, EventArgs e)
@@ -281,8 +281,7 @@ namespace XPMMS
                         members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData,
                             new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 
-                    await Navigation.PushAsync(new Project(_user, members, team, project, tasks), false);
-                    // test to see if no animation looks better
+                    await Navigation.PushAsync(new Project(_user, members, team, project, tasks));
                 }
             }
         }
@@ -357,8 +356,7 @@ namespace XPMMS
                     members = JsonConvert.DeserializeObject<UserModel[]>(jsonMembersData,
                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-                await Navigation.PushAsync(new Tasks(_user, members, team, project, tasks), false);
-                // test to see if no animation looks better
+                await Navigation.PushAsync(new Tasks(_user, members, team, project, tasks));
             }
         }
 
