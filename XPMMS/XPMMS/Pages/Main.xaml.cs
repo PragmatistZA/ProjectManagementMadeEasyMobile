@@ -11,7 +11,6 @@ using Xamarin.Forms.Internals;
 using XPMMS.DAL;
 using XPMMS.Models;
 using XPMMS.Pages;
-using static Xamarin.Forms.ImageSource;
 
 //TODO: Fix font sizes and spacing to fit all screens and platforms
 //TODO: Add getData() method/class to handle check for existing team, etc, and set instance variables to be passed in each page case
