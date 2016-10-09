@@ -97,18 +97,18 @@ namespace XPMMS
 
             gridMenu.Children.Add(btnProfile, 0, 0);
             gridMenu.Children.Add(btnTeam, 1, 0);
-            gridMenu.Children.Add(new Label { Text = "Profile", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 0, 1);
-            gridMenu.Children.Add(new Label { Text = "Team", FontSize = 20 , HorizontalTextAlignment = TextAlignment.Center }, 1, 1);
+            gridMenu.Children.Add(new Label { Text = "Profile", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 1);
+            gridMenu.Children.Add(new Label { Text = "Team", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 1, 1);
 
             gridMenu.Children.Add(btnProject, 0, 2);
             gridMenu.Children.Add(btnTasks, 1, 2);
-            gridMenu.Children.Add(new Label { Text = "Project", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 0, 3);
-            gridMenu.Children.Add(new Label { Text = "Tasks", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 1, 3);
+            gridMenu.Children.Add(new Label { Text = "Project", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 3);
+            gridMenu.Children.Add(new Label { Text = "Tasks", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 1, 3);
 
             gridMenu.Children.Add(btnContact, 0, 4);
             gridMenu.Children.Add(btnAbout, 1, 4);
-            gridMenu.Children.Add(new Label { Text = "Contact Us", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 0, 5);
-            gridMenu.Children.Add(new Label { Text = "About Us", FontSize = 20, HorizontalTextAlignment = TextAlignment.Center }, 1, 5);
+            gridMenu.Children.Add(new Label { Text = "Contact Us", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 5);
+            gridMenu.Children.Add(new Label { Text = "About Us", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 1, 5);
 
             btnProfile.Clicked += BtnProfile_Clicked;
             btnTeam.Clicked += BtnTeam_Clicked;
