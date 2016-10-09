@@ -68,6 +68,8 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)pmmeWS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserLogin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Behaviours\EmailValidatorBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Behaviours\NumberValidatorBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Demonstration\View.xaml">

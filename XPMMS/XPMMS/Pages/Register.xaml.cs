@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XPMMS.DAL;
+using XPMMS.Validation.Behaviors;
+
 namespace XPMMS.Pages
 {
     public partial class Register : ContentPage
@@ -12,7 +14,7 @@ namespace XPMMS.Pages
         private Button _btnRegister;
         private Editor _userName;
         private Editor _userSurname;
-        private Editor _userEmail;
+        private Entry _userEmail;
         private Entry _userPassword;
         private Entry _userConfirmPassword;
         public Register()
@@ -20,6 +22,7 @@ namespace XPMMS.Pages
             InitializeComponent();
             SetPage();
         }
+
         private void SetPage()
         {
             Label header = new Label
@@ -38,10 +41,13 @@ namespace XPMMS.Pages
                 HorizontalOptions = LayoutOptions.FillAndExpand,
             };
 
+            EmailValidatorBehavior emailValidator = new EmailValidatorBehavior();
+
             _btnRegister = new Button { Text = "Register" };
             _userName = new Editor { Text = "John" };
             _userSurname = new Editor { Text = "Doe" };
-            _userEmail = new Editor { Text = "john@gmail.com" };
+            _userEmail = new Entry { Text = "john@gmail.com" };
+            _userEmail.Behaviors.Add(emailValidator);
             _userPassword = new Entry { Text = "Password", IsPassword = true };
             _userConfirmPassword = new Entry { Text = "Password", IsPassword = true };
             _btnRegister.Clicked += BtnRegister_Clicked;
@@ -52,11 +58,13 @@ namespace XPMMS.Pages
             inputGrid.Children.Add(_userSurname, 1, 1);
             inputGrid.Children.Add(new Label { Text = "Email:" }, 0, 2);
             inputGrid.Children.Add(_userEmail, 1, 2);
-            inputGrid.Children.Add(new Label { Text = "Password:" }, 0, 3);
-            inputGrid.Children.Add(_userPassword, 1, 3);
-            inputGrid.Children.Add(new Label { Text = "Confirm password:" }, 0, 4);
-            inputGrid.Children.Add(_userConfirmPassword, 1, 4);
-            inputGrid.Children.Add(_btnRegister, 1, 5);
+            inputGrid.Children.Add(new Label { Text = emailValidator.IsValid ? "Email is valid" : "Enter a valid email" }, 1, 3);
+            inputGrid.Children.Add(new Label { Text = "Password:" }, 0, 4);
+            inputGrid.Children.Add(_userPassword, 1, 4);
+            inputGrid.Children.Add(new Label { Text = "Confirm password:" }, 0, 5);
+            inputGrid.Children.Add(_userConfirmPassword, 1, 5);
+            inputGrid.Children.Add(_btnRegister, 1, 6);
+
             Content = new StackLayout
             {
                 Children =
