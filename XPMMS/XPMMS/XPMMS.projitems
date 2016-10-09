@@ -70,6 +70,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserLogin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\Behaviours\EmailValidatorBehaviour.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\Behaviours\NumberValidatorBehaviour.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Behaviours\PasswordValidatorBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Demonstration\View.xaml">

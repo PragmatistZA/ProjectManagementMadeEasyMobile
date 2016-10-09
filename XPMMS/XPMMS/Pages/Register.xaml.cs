@@ -17,6 +17,10 @@ namespace XPMMS.Pages
         private Entry _userEmail;
         private Entry _userPassword;
         private Entry _userConfirmPassword;
+
+        private EmailValidatorBehavior emailValidator;
+        private PasswordValidatorBehavior passwordValidator;
+
         public Register()
         {
             InitializeComponent();
@@ -41,14 +45,16 @@ namespace XPMMS.Pages
                 HorizontalOptions = LayoutOptions.FillAndExpand,
             };
 
-            EmailValidatorBehavior emailValidator = new EmailValidatorBehavior();
+            emailValidator = new EmailValidatorBehavior();
+            passwordValidator = new PasswordValidatorBehavior();
 
             _btnRegister = new Button { Text = "Register" };
-            _userName = new Editor { Text = "John" };
-            _userSurname = new Editor { Text = "Doe" };
-            _userEmail = new Entry { Text = "john@gmail.com" };
+            _userName = new Editor { Text = "" };
+            _userSurname = new Editor { Text = "" };
+            _userEmail = new Entry { Text = "" };
             _userEmail.Behaviors.Add(emailValidator);
             _userPassword = new Entry { Text = "Password", IsPassword = true };
+            _userPassword.Behaviors.Add(passwordValidator);
             _userConfirmPassword = new Entry { Text = "Password", IsPassword = true };
             _btnRegister.Clicked += BtnRegister_Clicked;
 
@@ -58,12 +64,13 @@ namespace XPMMS.Pages
             inputGrid.Children.Add(_userSurname, 1, 1);
             inputGrid.Children.Add(new Label { Text = "Email:" }, 0, 2);
             inputGrid.Children.Add(_userEmail, 1, 2);
-            inputGrid.Children.Add(new Label { Text = emailValidator.IsValid ? "Email is valid" : "Enter a valid email" }, 1, 3);
+            //inputGrid.Children.Add(new Label { Text = emailValidator.IsValid ? "Email is valid" : "Enter a valid email" }, 1, 3);
             inputGrid.Children.Add(new Label { Text = "Password:" }, 0, 4);
             inputGrid.Children.Add(_userPassword, 1, 4);
-            inputGrid.Children.Add(new Label { Text = "Confirm password:" }, 0, 5);
-            inputGrid.Children.Add(_userConfirmPassword, 1, 5);
-            inputGrid.Children.Add(_btnRegister, 1, 6);
+            //inputGrid.Children.Add(new Label { Text = passwordValidator.IsValid ? "Password is valid" : "Enter a valid password" }, 1, 5);
+            inputGrid.Children.Add(new Label { Text = "Confirm password:" }, 0, 6);
+            inputGrid.Children.Add(_userConfirmPassword, 1, 6);
+            inputGrid.Children.Add(_btnRegister, 1, 7);
 
             Content = new StackLayout
             {
@@ -77,14 +84,32 @@ namespace XPMMS.Pages
 
         private async void BtnRegister_Clicked(object sender, EventArgs e)
         {
-            if (_userPassword.Text == _userConfirmPassword.Text)
+            string errors = "";
+            bool errorFlag = false;
+            if (_userPassword.Text != _userConfirmPassword.Text)
+            {
+                errors += Environment.NewLine + "Passwords do not match";
+                errorFlag = true;
+            }
+            if (!passwordValidator.IsValid)
+            {
+                errors += Environment.NewLine + "Password must contain uppercase, lowercase, a special character, and be at least 8 characters in length";
+                errorFlag = true;
+            }
+            if (!emailValidator.IsValid)
+            {
+                errors += Environment.NewLine + "Please use an existing email address";
+                errorFlag = true;
+            }
+
+            if (!errorFlag)
             {
                 WebService.AddNewUser(_userName.Text, _userSurname.Text, _userEmail.Text, _userPassword.Text);
                 await Navigation.PopAsync();
             }
             else
             {
-                await DisplayAlert("Alert", "Passwords don't match", "OK");
+                await DisplayAlert("Invalid Registration", "Invalid details:" + errors, "OK");
             }
 
         }

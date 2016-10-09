@@ -42,7 +42,7 @@ namespace XPMMS.Pages
                 HorizontalOptions = LayoutOptions.FillAndExpand,
             };
 
-            _userEmail = new Editor { Text = "cool@gmail.com" };
+            _userEmail = new Editor { Text = "" };
             _userPassword = new Entry { Text = "Password", IsPassword = true };
             _btnLogin = new Button { Text = "Login" };
             _btnRegister = new Button { Text = "Register" };
@@ -69,15 +69,15 @@ namespace XPMMS.Pages
         private async void BtnLogin_Clicked(object sender, EventArgs e)
         {
             var jsonResult = WebService.VerifyUserLogin(_userEmail.Text, _userPassword.Text);
-            if (jsonResult != "Incorrect")
+            if (jsonResult == "Correct")
             {
-                await DisplayAlert("Alert", jsonResult, "OK");
+                await DisplayAlert(jsonResult + "!", "Login Details Authenticated", "Continue");
                 UserLogin.UserEmail = _userEmail.Text;
                 App.Current.MainPage = new NavigationPage(new Main());
             }
             else
             {
-                await DisplayAlert("Alert", jsonResult, "OK");
+                await DisplayAlert(jsonResult + "!", "Login Failed", "OK");
             }
 
         }
