@@ -16,6 +16,7 @@
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SHA1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LoginStringEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ProjectModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TaskModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TeamModel.cs" />

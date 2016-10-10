@@ -11,6 +11,8 @@ namespace XPMMS.Pages
 {
     public partial class Register : ContentPage
     {
+        public EventHandler RegisterSucceeded;
+
         private Button _btnRegister;
         private Editor _userName;
         private Editor _userSurname;
@@ -86,32 +88,39 @@ namespace XPMMS.Pages
         {
             string errors = "";
             bool errorFlag = false;
-            if (_userPassword.Text != _userConfirmPassword.Text)
-            {
-                errors += Environment.NewLine + "Passwords do not match";
-                errorFlag = true;
-            }
-            if (!passwordValidator.IsValid)
-            {
-                errors += Environment.NewLine + "Password must contain uppercase, lowercase, a special character, and be at least 8 characters in length";
-                errorFlag = true;
-            }
-            if (!emailValidator.IsValid)
-            {
-                errors += Environment.NewLine + "Please use an existing email address";
-                errorFlag = true;
-            }
+            //if (_userPassword.Text != _userConfirmPassword.Text)
+            //{
+            //    errors += Environment.NewLine + "Passwords do not match";
+            //    errorFlag = true;
+            //}
+            //if (!passwordValidator.IsValid)
+            //{
+            //    errors += Environment.NewLine + "Password must contain uppercase, lowercase, a special character, and be at least 8 characters in length";
+            //    errorFlag = true;
+            //}
+            //if (!emailValidator.IsValid)
+            //{
+            //    errors += Environment.NewLine + "Please use an existing email address";
+            //    errorFlag = true;
+            //}
 
             if (!errorFlag)
             {
                 WebService.AddNewUser(_userName.Text, _userSurname.Text, _userEmail.Text, _userPassword.Text);
+                OnRegisterSucceeded();
                 await Navigation.PopAsync();
+                
             }
             else
             {
                 await DisplayAlert("Invalid Registration", "Invalid details:" + errors, "OK");
             }
 
+        }
+
+        private void OnRegisterSucceeded()
+        {
+            RegisterSucceeded?.Invoke(this, new LoginStringEventArgs(_userEmail.Text + "-" + _userPassword.Text));
         }
     }
 }

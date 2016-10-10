@@ -13,13 +13,14 @@ namespace XPMMS
 		public App ()
 		{
 			// The root page of your application
-			MainPage = new NavigationPage(new Login());
+			
 		}
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+            MainPage = new NavigationPage(new Login());
+        }
 
 		protected override void OnSleep ()
 		{
@@ -29,6 +30,8 @@ namespace XPMMS
 		protected override void OnResume ()
 		{
 			// Handle when your app resumes
-		}
+           // if(UserLogin.UserEmail != null)
+                MainPage = new NavigationPage(new Main());
+        }
 	}
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Text.Style;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;

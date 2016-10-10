@@ -11,7 +11,8 @@ using System;
 namespace XPMMS.Pages
 {
 	public partial class Login : ContentPage
-	{
+    {
+
         private Button _btnLogin;
         private Button _btnRegister;
         private Editor _userEmail;
@@ -20,7 +21,6 @@ namespace XPMMS.Pages
         public Login()
         {
             InitializeComponent();
-
             SetPage();
         }
 
@@ -68,23 +68,41 @@ namespace XPMMS.Pages
 
         private async void BtnLogin_Clicked(object sender, EventArgs e)
         {
-            var jsonResult = WebService.VerifyUserLogin(_userEmail.Text, _userPassword.Text);
-            if (jsonResult == "Correct")
-            {
-                await DisplayAlert(jsonResult + "!", "Login Details Authenticated", "Continue");
-                UserLogin.UserEmail = _userEmail.Text;
-                App.Current.MainPage = new NavigationPage(new Main());
-            }
-            else
-            {
-                await DisplayAlert(jsonResult + "!", "Login Failed", "OK");
-            }
+
+                var jsonResult = WebService.VerifyUserLogin(_userEmail.Text, _userPassword.Text);
+
+                if (jsonResult == "Correct")
+                {
+                    await DisplayAlert(jsonResult + "!", "Login Details Authenticated", "Continue");
+                    UserLogin.UserEmail = _userEmail.Text;
+                    App.Current.MainPage = new NavigationPage(new Main());
+                }
+                else if (jsonResult == "Incorrect")
+                {
+                    await DisplayAlert(jsonResult + "!", "Login Failed, check username and password", "OK");
+                }
+
+                else
+                {
+                    await DisplayAlert(jsonResult, "It appears there is no account associated with this email. " +
+                                                   "\nPlease register to our service.","OK");
+                }
 
         }
         private async void BtnRegister_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Register());
+            Register reg = new Register();
+            reg.RegisterSucceeded += HandleRegisterSucceeded;
+            await Navigation.PushAsync(reg);
         }
+
+	    private void HandleRegisterSucceeded(object sender, EventArgs e)
+	    {
+            //Ughh... 
+            string[] splitArgsStrings = ((LoginStringEventArgs)(e)).StringArgs.Split('-');
+            _userEmail.Text = splitArgsStrings[0];
+	        _userPassword.Text = splitArgsStrings[1];
+	    }
     }
 }
 
