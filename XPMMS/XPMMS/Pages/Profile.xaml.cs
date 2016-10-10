@@ -92,7 +92,7 @@ namespace XPMMS.Pages
             inputGrid.Children.Add(editLastName, 1, 2);
             inputGrid.Children.Add(new Label { Text = "Email:" }, 0, 3);
             inputGrid.Children.Add(editEmail, 1, 3);
-            inputGrid.Children.Add(new Label { Text = "Contact:" }, 0, 4);
+            inputGrid.Children.Add(new Label { Text = "Cell Phone:" }, 0, 4);
             inputGrid.Children.Add(editContact, 1, 4);
             inputGrid.Children.Add(new Label { Text = "Job:" }, 0, 5);
             inputGrid.Children.Add(editJobDesc, 1, 5);

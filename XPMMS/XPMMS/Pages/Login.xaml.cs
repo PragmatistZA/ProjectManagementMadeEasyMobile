@@ -43,7 +43,7 @@ namespace XPMMS.Pages
             };
 
             _userEmail = new Editor { Text = "" };
-            _userPassword = new Entry { Text = "Password", IsPassword = true };
+            _userPassword = new Entry { Text = "", IsPassword = true };
             _btnLogin = new Button { Text = "Login" };
             _btnRegister = new Button { Text = "Register" };
             _btnLogin.Clicked += BtnLogin_Clicked;

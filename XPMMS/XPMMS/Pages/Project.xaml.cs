@@ -60,10 +60,10 @@ namespace XPMMS.Pages
             inputGrid.Children.Add(new Label { Text = _project.Project_Name }, 1, 0);
             inputGrid.Children.Add(new Label { Text = "Project Description:" }, 0, 1);
             inputGrid.Children.Add(new Label { Text = _project.Proj_Desc }, 1, 1);
-            inputGrid.Children.Add(new Label { Text = "Project Due Date:" }, 0, 2);
-            inputGrid.Children.Add(new Label { Text = Convert.ToString(_project.Proj_Due, CultureInfo.CurrentCulture) }, 1, 2);
-            inputGrid.Children.Add(new Label { Text = "Project Manager:" }, 0, 3);
-            inputGrid.Children.Add(new Label { Text = manager }, 1, 3);
+            //inputGrid.Children.Add(new Label { Text = "Project Due Date:" }, 0, 2);
+            //inputGrid.Children.Add(new Label { Text = Convert.ToString(_project.Proj_Due, CultureInfo.CurrentCulture) }, 1, 2);
+            inputGrid.Children.Add(new Label { Text = "Project Manager:" }, 0, 2);
+            inputGrid.Children.Add(new Label { Text = manager }, 1, 2);
 
             Content = new StackLayout
             {
