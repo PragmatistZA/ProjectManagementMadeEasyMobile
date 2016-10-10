@@ -23,6 +23,7 @@ namespace XPMMS
 {
     public partial class Main : ContentPage
     {
+        
         private UserModel _user;
         private TeamModel team;
         private ProjectModel project;
@@ -34,11 +35,11 @@ namespace XPMMS
         public Main()
         {
             InitializeComponent();
-
+            
             // hard coded user login data
-            var jsonUserData = WebService.GetUser(UserLogin.UserEmail);
-            var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            _user = users[0];
+           // var jsonUserData = WebService.GetUser(UserLogin.UserEmail);
+           // var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+           // _user = users[0];
             setPage();
         }
 

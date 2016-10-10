@@ -31,7 +31,7 @@ namespace XPMMS
 		{
 			// Handle when your app resumes
            // if(UserLogin.UserEmail != null)
-                MainPage = new NavigationPage(new Main());
+                MainPage = new NavigationPage(new BackMain());
         }
 	}
 }

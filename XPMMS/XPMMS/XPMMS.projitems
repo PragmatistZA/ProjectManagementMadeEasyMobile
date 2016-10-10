@@ -17,6 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SHA1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoginStringEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MasterPageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ProjectModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TaskModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TeamModel.cs" />
@@ -34,7 +35,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AddTeam.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\BackMain.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Contact.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\HamburgerMenuMasterPage.xaml.cs">
+      <DependentUpon>HamburgerMenuMasterPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ListTeams.xaml.cs">
@@ -137,6 +143,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\HamburgerMenuMasterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

@@ -75,7 +75,7 @@ namespace XPMMS.Pages
                 {
                     await DisplayAlert(jsonResult + "!", "Login Details Authenticated", "Continue");
                     UserLogin.UserEmail = _userEmail.Text;
-                    App.Current.MainPage = new NavigationPage(new Main());
+                    App.Current.MainPage = new BackMain();
                 }
                 else if (jsonResult == "Incorrect")
                 {
