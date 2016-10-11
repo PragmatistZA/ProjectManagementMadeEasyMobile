@@ -34,24 +34,6 @@ namespace XPMMS.Pages
                 {
                     App.Current.MainPage = new NavigationPage(new Login());
                 }
-                else if (item.Title == "About Us")
-                {
-                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-                    logoutMenu.ListView.SelectedItem = null;
-                    IsPresented = false;
-                }
-                else if (item.Title == "Contact Us")
-                {
-                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-                    logoutMenu.ListView.SelectedItem = null;
-                    IsPresented = false;
-                }
-                else
-                {
-                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-                    logoutMenu.ListView.SelectedItem = null;
-                    IsPresented = false;
-                }
             }
         }
 

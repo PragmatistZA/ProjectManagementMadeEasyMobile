@@ -76,6 +76,18 @@ namespace XPMMS
                 Image = "@drawable/task.png"
             };
 
+            Button btnContact = new Button
+            {
+                BackgroundColor = Color.White,
+                Image = "@drawable/contact.png"
+            };
+
+            Button btnAbout = new Button
+            {
+                BackgroundColor = Color.White,
+                Image = "@drawable/about.png"
+            };
+
             Grid gridMenu = new Grid
             {
                 VerticalOptions = LayoutOptions.Start,
@@ -83,19 +95,26 @@ namespace XPMMS
             };
 
             gridMenu.Children.Add(btnProfile, 0, 0);
-            gridMenu.Children.Add(btnTeam, 0, 2);
+            gridMenu.Children.Add(btnTeam, 1, 0);
             gridMenu.Children.Add(new Label { Text = "Profile", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 1);
-            gridMenu.Children.Add(new Label { Text = "Team", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 3);
+            gridMenu.Children.Add(new Label { Text = "Team", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 1, 1);
 
-            gridMenu.Children.Add(btnProject, 0, 4);
-            gridMenu.Children.Add(btnTasks, 0, 6);
-            gridMenu.Children.Add(new Label { Text = "Project", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 5);
-            gridMenu.Children.Add(new Label { Text = "Tasks", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 7);
+            gridMenu.Children.Add(btnProject, 0, 2);
+            gridMenu.Children.Add(btnTasks, 1, 2);
+            gridMenu.Children.Add(new Label { Text = "Project", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 3);
+            gridMenu.Children.Add(new Label { Text = "Tasks", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 1, 3);
+
+            gridMenu.Children.Add(btnContact, 0, 4);
+            gridMenu.Children.Add(btnAbout, 1, 4);
+            gridMenu.Children.Add(new Label { Text = "Contact Us", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 0, 5);
+            gridMenu.Children.Add(new Label { Text = "About Us", FontSize = 20, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center }, 1, 5);
 
             btnProfile.Clicked += BtnProfile_Clicked;
             btnTeam.Clicked += BtnTeam_Clicked;
             btnProject.Clicked += BtnProject_Clicked;
             btnTasks.Clicked += BtnTasks_Clicked;
+            btnContact.Clicked += BtnContact_Clicked;
+            btnAbout.Clicked += BtnAbout_Clicked;
 
             Label lbl = new Label {Text = ""}; // until I figure out how to add padding underneath headers correctly....
 
@@ -338,6 +357,16 @@ namespace XPMMS
 
                 await Navigation.PushAsync(new Tasks(_user, members, team, project, tasks));
             }
+        }
+
+        private async void BtnContact_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Contact());
+        }
+
+        private async void BtnAbout_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new About());
         }
     }
 }

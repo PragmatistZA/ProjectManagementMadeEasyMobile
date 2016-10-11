@@ -23,27 +23,14 @@ namespace XPMMS.Pages
             var masterPageItems = new List<MasterPageItem>();
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "Main",
-                IconSource = "Icon.png",
-                TargetType = typeof(Main)
+                Title = "Log Out"
+                //IconSource = "contacts.png",
             });
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "About Us",
-                IconSource = "about.png",
-                TargetType = typeof(About)
-            });
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "Contact Us",
-                IconSource = "contact.png",
-                TargetType = typeof(Contact)
-            });
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "Log Out",
-                IconSource = "lock.png"
-            });
+            //masterPageItems.Add(new MasterPageItem
+            //{
+            //    Title = "Main",
+            //    TargetType = typeof(Main)
+            //});
 
             listView = new ListView
             {
