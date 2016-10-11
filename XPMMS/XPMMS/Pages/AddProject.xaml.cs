@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using XPMMS.DAL;
 using XPMMS.Models;
+using XPMMS.Validation.Behaviours;
 
 namespace XPMMS.Pages
 {
@@ -18,8 +19,11 @@ namespace XPMMS.Pages
         private ProjectModel _project;
         private TaskModel[] _tasks;
 
-	    private Editor editProjectName;
-	    private Editor editProjectDesc;
+	    private Entry editProjectName;
+	    private Entry editProjectDesc;
+
+	    private TextValidatorBehaviour textValidatorProjectName;
+	    private TextValidatorBehaviour textValidatorProjectDesc;
 
         public AddProject(UserModel user, UserModel[] members, TeamModel team, ProjectModel project, TaskModel[] tasks)
         {
@@ -54,15 +58,20 @@ namespace XPMMS.Pages
                 Text = "Create"
             };
 
-            editProjectName = new Editor
-            {
-                Text = ""
-            };
+            textValidatorProjectName = new TextValidatorBehaviour();
+            textValidatorProjectDesc = new TextValidatorBehaviour();
 
-            editProjectDesc = new Editor
+            editProjectName = new Entry
             {
                 Text = ""
             };
+            editProjectName.Behaviors.Add(textValidatorProjectName);
+
+            editProjectDesc = new Entry
+            {
+                Text = ""
+            };
+            editProjectName.Behaviors.Add(textValidatorProjectDesc);
 
             Grid inputGrid = new Grid
             {
@@ -91,16 +100,46 @@ namespace XPMMS.Pages
 
         private async void BtnCreateProject_Clicked(object sender, EventArgs e)
         {
-            WebService.AddNewProject(Convert.ToString(_user.User_ID), Convert.ToString(_team.Team_ID), editProjectDesc.Text,
+            string errors = "";
+            bool errorFlag = false;
+
+            if (editProjectName.Text == "")
+            {
+                errors += Environment.NewLine + "Please fill out project name.";
+                errorFlag = true;
+            }
+            else if (!textValidatorProjectName.IsValid)
+            {
+                errors += Environment.NewLine + "Please only use characters for project name.";
+                errorFlag = true;
+            }
+            if (editProjectDesc.Text == "")
+            {
+                errors += Environment.NewLine + "Please fill out project description.";
+                errorFlag = true;
+            }
+            else if (!textValidatorProjectDesc.IsValid)
+            {
+                errors += Environment.NewLine + "Please only use characters for project description.";
+                errorFlag = true;
+            }
+            if (errorFlag)
+            {
+                await DisplayAlert("Invalid Registration", "Invalid details:" + errors, "OK");
+            }
+            else
+            {
+                WebService.AddNewProject(Convert.ToString(_user.User_ID), Convert.ToString(_team.Team_ID), editProjectDesc.Text,
                 editProjectName.Text);
 
-            var jsonProjectData = WebService.GetTeamProjects(Convert.ToString(_team.Team_Name));
-            var projectData = JsonConvert.DeserializeObject<ProjectModel[]>(jsonProjectData, 
-                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            _project = projectData[0];
+                var jsonProjectData = WebService.GetTeamProjects(Convert.ToString(_team.Team_Name));
+                var projectData = JsonConvert.DeserializeObject<ProjectModel[]>(jsonProjectData,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                _project = projectData[0];
 
-            await Navigation.PushAsync(new Project(_user, _members, _team, _project, _tasks));
-            Navigation.RemovePage(this);
+                await Navigation.PushAsync(new Project(_user, _members, _team, _project, _tasks));
+                Navigation.RemovePage(this);
+            }
         }
     }
 }
