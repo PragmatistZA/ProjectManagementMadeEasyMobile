@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 using XPMMS.DAL;
+using XPMMS.Models;
 using XPMMS.Validation.Behaviors;
 using XPMMS.Validation.Behaviours;
 
@@ -95,9 +97,19 @@ namespace XPMMS.Pages
         {
             string errors = "";
             bool errorFlag = false;
-            if (_userPassword.Text != _userConfirmPassword.Text)
+            if (_userPassword.Text == "")
+            {
+                errors += Environment.NewLine + "Please fill out password.";
+                errorFlag = true;
+            }
+            else if (_userPassword.Text != _userConfirmPassword.Text)
             {
                 errors += Environment.NewLine + "Passwords do not match.";
+                errorFlag = true;
+            }
+            if (_userConfirmPassword.Text == "")
+            {
+                errors += Environment.NewLine + "Please confirm password.";
                 errorFlag = true;
             }
             if (!passwordValidator.IsValid)
@@ -105,17 +117,54 @@ namespace XPMMS.Pages
                 errors += Environment.NewLine + "Password must contain uppercase, lowercase, a special character, and be at least 8 characters in length.";
                 errorFlag = true;
             }
-            if (!emailValidator.IsValid)
+            if (_userEmail.Text == "")
+            {
+                errors += Environment.NewLine + "Please fill out email.";
+                errorFlag = true;
+            }
+            else if (!emailValidator.IsValid)
             {
                 errors += Environment.NewLine + "Please use an existing email address.";
                 errorFlag = true;
             }
-            if (!textValidatorFirstName.IsValid)
+            else
+            {
+                bool emailExistsFlag = false;
+
+                var jsonAllUsers = WebService.GetAllUsers();
+                var allUsers = JsonConvert.DeserializeObject<UserModel[]>(jsonAllUsers, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                if (jsonAllUsers != "[]")
+                {
+                    foreach (var itemUser in allUsers)
+                    {
+                        if (itemUser.Email == _userEmail.Text)
+                        {
+                            emailExistsFlag = true;
+                        }
+                    }
+                    if (emailExistsFlag)
+                    {
+                        errors += Environment.NewLine + "Email address is already linked to an existing account.";
+                        errorFlag = true;
+                    }
+                }
+            }
+            if (_userName.Text == "")
+            {
+                errors += Environment.NewLine + "Please fill out first name.";
+                errorFlag = true;
+            }
+            else if (!textValidatorFirstName.IsValid)
             {
                 errors += Environment.NewLine + "Please only use characters for first name.";
                 errorFlag = true;
             }
-            if (!textValidatorLastName.IsValid)
+            if (_userSurname.Text == "")
+            {
+                errors += Environment.NewLine + "Please fill out last name.";
+                errorFlag = true;
+            }
+            else if (!textValidatorLastName.IsValid)
             {
                 errors += Environment.NewLine + "Please only use characters for last name.";
                 errorFlag = true;

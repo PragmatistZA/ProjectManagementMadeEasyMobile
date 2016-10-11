@@ -103,7 +103,7 @@ namespace XPMMS.Pages
             string errors = "";
             bool errorFlag = false;
 
-            if (editProjectName == null && !textValidatorProjectName.IsValid)
+            if (editProjectName.Text == "")
             {
                 errors += Environment.NewLine + "Please fill out project name.";
                 errorFlag = true;
@@ -113,7 +113,7 @@ namespace XPMMS.Pages
                 errors += Environment.NewLine + "Please only use characters for project name.";
                 errorFlag = true;
             }
-            if (editProjectDesc == null && !textValidatorProjectDesc.IsValid)
+            if (editProjectDesc.Text == "")
             {
                 errors += Environment.NewLine + "Please fill out project description.";
                 errorFlag = true;
