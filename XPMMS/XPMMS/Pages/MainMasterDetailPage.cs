@@ -5,11 +5,16 @@ using System.Reflection.Emit;
 using System.Text;
 
 using Xamarin.Forms;
+using XPMMS.Models;
 
 namespace XPMMS.Pages
 {
 	public class BackMain : MasterDetailPage
 	{
+
+        /// <summary>
+        /// This page is the page on which both Main and the Logout hamburger menu resides.
+        /// </summary>
         private HamburgerMenuMasterPage logoutMenu;
 
         public BackMain ()
@@ -25,14 +30,6 @@ namespace XPMMS.Pages
             var item = e.SelectedItem as MasterPageItem;
             if (item != null)
             {
-                //if (item.Title != "Log Out")
-                //{
-                //    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-                //    logoutMenu.ListView.SelectedItem = null;
-
-                //    IsPresented = false;
-                //}
-                //else
                 if (item.Title == "Log Out")
                 {
                     App.Current.MainPage = new NavigationPage(new Login());

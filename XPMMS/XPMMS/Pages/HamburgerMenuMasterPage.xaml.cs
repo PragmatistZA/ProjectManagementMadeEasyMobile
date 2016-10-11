@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using XPMMS;
+using XPMMS.Models;
 
 namespace XPMMS.Pages
 {
