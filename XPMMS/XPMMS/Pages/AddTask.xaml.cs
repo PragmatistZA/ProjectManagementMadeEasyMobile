@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using XPMMS.DAL;
 using XPMMS.Models;
+using XPMMS.Validation.Behaviors;
+using XPMMS.Validation.Behaviours;
 
 namespace XPMMS.Pages
 {
@@ -19,9 +21,12 @@ namespace XPMMS.Pages
         private ProjectModel _project;
         private TaskModel[] _tasks;
 
-        private Editor editTaskDesc;
-        private Editor editTimeReq;
+        private Entry editTaskDesc;
+        private Entry editTimeReq;
         private DatePicker editDueBy;
+
+	    private NumberValidatorBehavior numberValidator;
+	    private TextValidatorBehaviour textValidator;
 
         public AddTask(UserModel user, UserModel[] members, TeamModel team, ProjectModel project, TaskModel[] tasks)
         {
@@ -52,20 +57,25 @@ namespace XPMMS.Pages
 
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
+	        numberValidator = new NumberValidatorBehavior();
+	        textValidator = new TextValidatorBehaviour();
+
 	        Button btnCreateTask = new Button
 	        {
                 Text = "Create"
 	        };
 
-	        editTaskDesc = new Editor
+	        editTaskDesc = new Entry
 	        {
 	            Text = ""
 	        };
+            editTaskDesc.Behaviors.Add(textValidator);
 
-	        editTimeReq = new Editor
+	        editTimeReq = new Entry
 	        {
 	            Text = ""
 	        };
+            editTimeReq.Behaviors.Add(numberValidator);
 
 	        editDueBy = new DatePicker
 	        {
@@ -103,25 +113,55 @@ namespace XPMMS.Pages
 
         private async void BtnCreateTask_Clicked(object sender, EventArgs e)
         {
-            WebService.AddTask(Convert.ToString(_project.Proj_ID), editTaskDesc.Text, editTimeReq.Text, DateTime.Today.ToString("yyyy-MM-dd"), editDueBy.Date.ToString("yyyy-MM-dd"));
+            string errors = "";
+            bool errorFlag = false;
 
-            var jsonTasksData = WebService.GetAllTasks();
-            _tasks = JsonConvert.DeserializeObject<TaskModel[]>(jsonTasksData, 
-                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-
-            List<TaskModel> taskList = new List<TaskModel>();
-
-            foreach (TaskModel task in _tasks)
+            if (editTaskDesc == null && !textValidator.IsValid)
             {
-                if (task.Project_ID == _team.Proj_ID)
-                    taskList.Add(task);
+                errors += Environment.NewLine + "Please fill out task description.";
+                errorFlag = true;
             }
-            if (taskList.Count == 0)
-                _tasks = null;
-            else _tasks = taskList.ToArray();
+            else if (!textValidator.IsValid)
+            {
+                errors += Environment.NewLine + "Please only use characters in task description.";
+                errorFlag = true;
+            }
+            if (editTimeReq == null && !numberValidator.IsValid)
+            {
+                errors += Environment.NewLine + "Please fill out amount of hours needed for task.";
+                errorFlag = true;
+            }
+            else if (!numberValidator.IsValid)
+            {
+                errors += Environment.NewLine + "Please only use numbers for hours needed for task.";
+                errorFlag = true;
+            }
+            if (errorFlag)
+            {
+                await DisplayAlert("Invalid Registration", "Invalid details:" + errors, "OK");
+            }
+            else
+            {
+                WebService.AddTask(Convert.ToString(_project.Proj_ID), editTaskDesc.Text, editTimeReq.Text, DateTime.Today.ToString("yyyy-MM-dd"), editDueBy.Date.ToString("yyyy-MM-dd"));
 
-            await Navigation.PushAsync(new Tasks(_user, _members, _team, _project, _tasks));
-            Navigation.RemovePage(this);
+                var jsonTasksData = WebService.GetAllTasks();
+                _tasks = JsonConvert.DeserializeObject<TaskModel[]>(jsonTasksData,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+                List<TaskModel> taskList = new List<TaskModel>();
+
+                foreach (TaskModel task in _tasks)
+                {
+                    if (task.Project_ID == _team.Proj_ID)
+                        taskList.Add(task);
+                }
+                if (taskList.Count == 0)
+                    _tasks = null;
+                else _tasks = taskList.ToArray();
+
+                await Navigation.PushAsync(new Tasks(_user, _members, _team, _project, _tasks));
+                Navigation.RemovePage(this);
+            }
         }
     }
 }

@@ -58,7 +58,10 @@ namespace XPMMS.Pages
 
             deleteButtons = new List<Button>();
             currentTasks = new List<TaskModel>();
-
+            Label noTaskLabel = new Label
+            {
+                Text = ""
+            };
             if (_tasks != null)
             {
                  int count = 0;
@@ -81,7 +84,13 @@ namespace XPMMS.Pages
                     currentTasks.Add(task);
                     count += 5;
                  }
+                 
             }
+
+            else
+	        {
+	            noTaskLabel.Text = "You have yet to add any tasks!";
+	        }
 
             Button btnAddTask = new Button
             {
@@ -95,20 +104,21 @@ namespace XPMMS.Pages
                 Children =
                 {
                     header,
+                    noTaskLabel,
                     inputGrid,
                     btnAddTask
                 }
             };
         }
 
-	    private void BtnDeleteOnClicked(object sender, EventArgs eventArgs)
-	    {
-	        Button button = sender as Button;
+        private async void BtnDeleteOnClicked(object sender, EventArgs eventArgs)
+        {
+            Button button = sender as Button;
             int deleteButtonIndex = deleteButtons.IndexOf(button);
 
-	        WebService.DeleteTask(Convert.ToString(currentTasks[deleteButtonIndex].Task_ID));
+            WebService.DeleteTask(Convert.ToString(currentTasks[deleteButtonIndex].Task_ID));
 
-            DisplayAlert("Success!", "Task was deleted.", "OK");
+            await DisplayAlert("Success!", "Task was deleted.", "OK");
 
             var jsonTasksData = WebService.GetAllTasks();
             if (jsonTasksData == null)
@@ -135,7 +145,7 @@ namespace XPMMS.Pages
             SetPage();
         }
 
-	    private async void BtnAddTask_Clicked(object sender, EventArgs eventArgs)
+        private async void BtnAddTask_Clicked(object sender, EventArgs eventArgs)
         {
             await Navigation.PushAsync(new AddTask(_user, _members, _team, _project, 
                 _tasks), false);
