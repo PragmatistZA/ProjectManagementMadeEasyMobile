@@ -116,7 +116,7 @@ namespace XPMMS.Pages
             string errors = "";
             bool errorFlag = false;
 
-            if (editTaskDesc == null && !textValidator.IsValid)
+            if (editTaskDesc.Text == "" && !textValidator.IsValid)
             {
                 errors += Environment.NewLine + "Please fill out task description.";
                 errorFlag = true;
@@ -126,7 +126,7 @@ namespace XPMMS.Pages
                 errors += Environment.NewLine + "Please only use characters in task description.";
                 errorFlag = true;
             }
-            if (editTimeReq == null && !numberValidator.IsValid)
+            if (editTimeReq.Text == "" && !numberValidator.IsValid)
             {
                 errors += Environment.NewLine + "Please fill out amount of hours needed for task.";
                 errorFlag = true;

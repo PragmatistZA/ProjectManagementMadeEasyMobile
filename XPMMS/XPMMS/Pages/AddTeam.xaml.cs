@@ -96,31 +96,48 @@ namespace XPMMS.Pages
 
         private async void BtnRegisterTeam_Clicked(object sender, EventArgs e)
         {
-            if (textValidator.IsValid)
-            {
-                WebService.UserAddNewTeam(_user.Email, editTeamName.Text);
-
-                var jsonUserData = WebService.GetUser(_user.Email);
-                var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                _user = users[0];
-
-                var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
-                var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                TeamModel team = teamData[0];
-                _team = team;
-
-                await Navigation.PushAsync(new Team(_user, _members, _team, _project, _tasks));
-                Navigation.RemovePage(this);
-            }
-            else if (editTeamName == null && !textValidator.IsValid)
+            if (editTeamName.Text == "" && !textValidator.IsValid)
             {
                 await DisplayAlert("Invalid Team Name", "Please fill in a team name.", "OK");
             }
-            else
+            else if (!textValidator.IsValid)
             {
                 await DisplayAlert("Invalid Team Name", "Please only use characters in team name.", "OK");
             }
+            else
+            {
+                bool teamExistsFlag = false;
 
+                var jsonAllTeams = WebService.GetAllTeams();
+                var allTeams = JsonConvert.DeserializeObject<TeamModel[]>(jsonAllTeams, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                if (jsonAllTeams != "[]")
+                {
+                    foreach (var itemTeam in allTeams)
+                    {
+                        if (itemTeam.Team_Name == editTeamName.Text)
+                        {
+                            teamExistsFlag = true;
+                        }
+                    }
+                }
+                if (!teamExistsFlag)
+                {
+                    WebService.UserAddNewTeam(_user.Email, editTeamName.Text);
+
+                    var jsonUserData = WebService.GetUser(_user.Email);
+                    var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                    _user = users[0];
+
+                    var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
+                    var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                    TeamModel team = teamData[0];
+                    _team = team;
+
+                    await Navigation.PushAsync(new Team(_user, _members, _team, _project, _tasks));
+                    Navigation.RemovePage(this);
+                }
+                else await DisplayAlert("Invalid Team Name", "Team already exists!", "OK");      
+            }
         }
 
         private async void BtnJoinTeam_Clicked(object sender, EventArgs e)
