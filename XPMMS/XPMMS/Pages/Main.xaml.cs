@@ -30,16 +30,13 @@ namespace XPMMS
         private TaskModel[] tasks;
         private UserModel[] members;
 
-        private string testLoginEmail = UserLogin.UserEmail;
-
         public Main()
         {
             InitializeComponent();
             
-            // hard coded user login data
-           // var jsonUserData = WebService.GetUser(UserLogin.UserEmail);
-           // var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-           // _user = users[0];
+            var jsonUserData = WebService.GetUser(UserLogin.UserEmail);
+            var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            _user = users[0];
             setPage();
         }
 

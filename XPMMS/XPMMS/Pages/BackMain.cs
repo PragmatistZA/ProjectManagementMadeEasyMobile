@@ -25,13 +25,15 @@ namespace XPMMS.Pages
             var item = e.SelectedItem as MasterPageItem;
             if (item != null)
             {
-                if (item.Title != "Log Out")
-                {
-                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-                    logoutMenu.ListView.SelectedItem = null;
-                    IsPresented = false;
-                }
-                else
+                //if (item.Title != "Log Out")
+                //{
+                //    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
+                //    logoutMenu.ListView.SelectedItem = null;
+
+                //    IsPresented = false;
+                //}
+                //else
+                if (item.Title == "Log Out")
                 {
                     App.Current.MainPage = new NavigationPage(new Login());
                 }

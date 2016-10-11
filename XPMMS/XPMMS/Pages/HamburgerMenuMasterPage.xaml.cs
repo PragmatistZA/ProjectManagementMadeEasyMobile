@@ -25,11 +25,11 @@ namespace XPMMS.Pages
                 Title = "Log Out"
                 //IconSource = "contacts.png",
             });
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "Main",
-                TargetType = typeof(Main)
-            });
+            //masterPageItems.Add(new MasterPageItem
+            //{
+            //    Title = "Main",
+            //    TargetType = typeof(Main)
+            //});
 
             listView = new ListView
             {
