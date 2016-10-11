@@ -52,6 +52,8 @@ namespace XPMMS.Pages
 
             emailValidator = new EmailValidatorBehavior();
             passwordValidator = new PasswordValidatorBehavior();
+            textValidatorFirstName = new TextValidatorBehaviour();
+            textValidatorLastName = new TextValidatorBehaviour();
 
             _btnRegister = new Button { Text = "Register" };
             _userName = new Entry { Text = "" };
