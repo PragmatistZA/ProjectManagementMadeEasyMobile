@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LoginStringEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MasterPageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ProjectModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\QuoteModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TaskModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TeamModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserModel.cs" />

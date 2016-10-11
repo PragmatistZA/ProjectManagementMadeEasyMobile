@@ -7,6 +7,7 @@ using XPMMS.Models;
 
 using Xamarin.Forms;
 using System;
+using System.Net;
 
 namespace XPMMS.Pages
 {
@@ -56,15 +57,37 @@ namespace XPMMS.Pages
             inputGrid.Children.Add(_btnLogin, 1, 2);
             inputGrid.Children.Add(_btnRegister, 1, 3);
 
+            var jsonQuote = APIQuote();
+            var quote = JsonConvert.DeserializeObject<QuoteModel>(jsonQuote,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+            Label lblQuote = new Label
+            {
+                Text = "\"" + quote.quoteText + "\"" + Environment.NewLine + "~ " + quote.quoteAuthor
+            };
+
+
             Content = new StackLayout
             {
                 Children =
                 {
                     header,
-                    inputGrid
+                    inputGrid,
+                    lblQuote
                 }
             };
         }
+
+        private string APIQuote()
+        {
+            var url = "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
+
+            WebClient client = new WebClient();
+
+            var content = client.DownloadString(url);
+            return content;
+        }
+
 
         private async void BtnLogin_Clicked(object sender, EventArgs e)
         {
