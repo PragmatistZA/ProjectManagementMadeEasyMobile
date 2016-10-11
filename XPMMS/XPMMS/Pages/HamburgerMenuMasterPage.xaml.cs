@@ -14,23 +14,36 @@ namespace XPMMS.Pages
 	{
         public ListView ListView { get { return listView; } }
 
-	    ListView listView;
+        ListView listView;
 
-        public HamburgerMenuMasterPage ()
-		{
-			InitializeComponent ();
+        public HamburgerMenuMasterPage()
+        {
+            InitializeComponent();
 
             var masterPageItems = new List<MasterPageItem>();
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "Log Out"
-                //IconSource = "contacts.png",
+                Title = "Main",
+                IconSource = "Icon.png",
+                TargetType = typeof(Main)
             });
-            //masterPageItems.Add(new MasterPageItem
-            //{
-            //    Title = "Main",
-            //    TargetType = typeof(Main)
-            //});
+            masterPageItems.Add(new MasterPageItem
+            {
+                Title = "About Us",
+                IconSource = "about.png",
+                TargetType = typeof(About)
+            });
+            masterPageItems.Add(new MasterPageItem
+            {
+                Title = "Contact Us",
+                IconSource = "contact.png",
+                TargetType = typeof(Contact)
+            });
+            masterPageItems.Add(new MasterPageItem
+            {
+                Title = "Log Out",
+                IconSource = "lock.png"
+            });
 
             listView = new ListView
             {
@@ -56,5 +69,5 @@ namespace XPMMS.Pages
                 }
             };
         }
-	}
+    }
 }

@@ -17,8 +17,8 @@ namespace XPMMS.Pages
         /// </summary>
         private HamburgerMenuMasterPage logoutMenu;
 
-        public BackMain ()
-		{
+        public BackMain()
+        {
             logoutMenu = new HamburgerMenuMasterPage();
             Master = logoutMenu;
             Detail = new NavigationPage(new Main());
@@ -33,6 +33,24 @@ namespace XPMMS.Pages
                 if (item.Title == "Log Out")
                 {
                     App.Current.MainPage = new NavigationPage(new Login());
+                }
+                else if (item.Title == "About Us")
+                {
+                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
+                    logoutMenu.ListView.SelectedItem = null;
+                    IsPresented = false;
+                }
+                else if (item.Title == "Contact Us")
+                {
+                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
+                    logoutMenu.ListView.SelectedItem = null;
+                    IsPresented = false;
+                }
+                else
+                {
+                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
+                    logoutMenu.ListView.SelectedItem = null;
+                    IsPresented = false;
                 }
             }
         }
