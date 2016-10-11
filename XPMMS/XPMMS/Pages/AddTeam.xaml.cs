@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Xamarin.Forms;
 using XPMMS.DAL;
 using XPMMS.Models;
+using XPMMS.Validation.Behaviours;
 
 namespace XPMMS.Pages
 {
@@ -18,7 +19,9 @@ namespace XPMMS.Pages
         private ProjectModel _project;
         private TaskModel[] _tasks;
 
-	    private Editor editTeamName;
+	    private Entry editTeamName;
+
+	    private TextValidatorBehaviour textValidator;
 
         public AddTeam(UserModel user, UserModel[] members, TeamModel team, ProjectModel project, TaskModel[] tasks)
         {
@@ -36,7 +39,9 @@ namespace XPMMS.Pages
         }
 
         private void SetPage()
-	    {
+        {
+            textValidator = new TextValidatorBehaviour();
+
             Label header = new Label
             {
                 Text = "Create a Team",
@@ -57,10 +62,11 @@ namespace XPMMS.Pages
                 Text = "Teams"
             };
 
-            editTeamName = new Editor
+            editTeamName = new Entry
             {
                 Text = ""
             };
+            editTeamName.Behaviors.Add(textValidator);
 
             Grid inputGrid = new Grid
             {
@@ -90,20 +96,31 @@ namespace XPMMS.Pages
 
         private async void BtnRegisterTeam_Clicked(object sender, EventArgs e)
         {
+            if (textValidator.IsValid)
+            {
+                WebService.UserAddNewTeam(_user.Email, editTeamName.Text);
 
-            WebService.UserAddNewTeam(_user.Email, editTeamName.Text);
+                var jsonUserData = WebService.GetUser(_user.Email);
+                var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                _user = users[0];
 
-            var jsonUserData = WebService.GetUser(_user.Email);
-            var users = JsonConvert.DeserializeObject<UserModel[]>(jsonUserData, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            _user = users[0];
+                var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
+                var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                TeamModel team = teamData[0];
+                _team = team;
 
-            var jsonTeamContent = WebService.GetTeam(Convert.ToString(_user.Team_ID));
-            var teamData = JsonConvert.DeserializeObject<TeamModel[]>(jsonTeamContent, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            TeamModel team = teamData[0];
-            _team = team;
+                await Navigation.PushAsync(new Team(_user, _members, _team, _project, _tasks));
+                Navigation.RemovePage(this);
+            }
+            else if (editTeamName == null && !textValidator.IsValid)
+            {
+                await DisplayAlert("Invalid Team Name", "Please fill in a team name.", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Invalid Team Name", "Please only use characters in team name.", "OK");
+            }
 
-            await Navigation.PushAsync(new Team(_user, _members, _team, _project, _tasks));
-            Navigation.RemovePage(this);
         }
 
         private async void BtnJoinTeam_Clicked(object sender, EventArgs e)
