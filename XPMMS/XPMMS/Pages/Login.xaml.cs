@@ -37,11 +37,11 @@ namespace XPMMS.Pages
 
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
-            Grid inputGrid = new Grid
-            {
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-            };
+            //Grid inputGrid = new Grid
+            //{
+            //    VerticalOptions = LayoutOptions.Start,
+            //    HorizontalOptions = LayoutOptions.FillAndExpand,
+            //};
 
             _userEmail = new Editor { Text = "" };
             _userPassword = new Entry { Text = "", IsPassword = true };
@@ -50,12 +50,10 @@ namespace XPMMS.Pages
             _btnLogin.Clicked += BtnLogin_Clicked;
             _btnRegister.Clicked += BtnRegister_Clicked;
 
-            inputGrid.Children.Add(new Label { Text = "Email:" }, 0, 0);
-            inputGrid.Children.Add(_userEmail, 1, 0);
-            inputGrid.Children.Add(new Label { Text = "Password:" }, 0, 1);
-            inputGrid.Children.Add(_userPassword, 1, 1);
-            inputGrid.Children.Add(_btnLogin, 1, 2);
-            inputGrid.Children.Add(_btnRegister, 1, 3);
+            //inputGrid.Children.Add(, 0, 0);
+            //inputGrid.Children.Add(_userEmail, 1, 0);
+            //inputGrid.Children.Add(new Label { Text = "Password:" }, 0, 1);
+            //inputGrid.Children.Add(_userPassword, 1, 1);
 
             var jsonQuote = APIQuote();
             var quote = JsonConvert.DeserializeObject<QuoteModel>(jsonQuote,
@@ -72,7 +70,12 @@ namespace XPMMS.Pages
                 Children =
                 {
                     header,
-                    inputGrid,
+                    new Label { Text = "Email:" },
+                    _userEmail,
+                    new Label { Text = "Password:" },
+                    _userPassword,
+                    _btnLogin,
+                    _btnRegister,
                     lblQuote
                 }
             };

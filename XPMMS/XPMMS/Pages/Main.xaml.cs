@@ -50,7 +50,7 @@ namespace XPMMS
                 MinimumHeightRequest = 0
             };
 
-            Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+            Padding = new Thickness(10, Device.OnPlatform(10, 0, 0), 10, 5);
 
             Button btnProfile = new Button
             {
@@ -75,6 +75,8 @@ namespace XPMMS
                 BackgroundColor = Color.White,
                 Image = "@drawable/task.png"
             };
+
+            // all icons are from http://www.flaticon.com and no ownership is claimed by this app
 
             Grid gridMenu = new Grid
             {

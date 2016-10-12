@@ -107,7 +107,7 @@ namespace XPMMS.Pages
                     noTaskLabel,
                     new ScrollView
                     {
-                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        VerticalOptions = LayoutOptions.StartAndExpand,
                         Content = inputGrid
                         
                     },

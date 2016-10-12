@@ -89,6 +89,7 @@ namespace XPMMS.Pages
 
             Content = new StackLayout
             {
+                Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 20),
                 Children =
                 {
                     header,
