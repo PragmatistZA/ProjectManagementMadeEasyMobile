@@ -71,7 +71,7 @@ public partial class pmmeWS : System.Web.Services.Protocols.SoapHttpClientProtoc
     
     /// <remarks/>
     public pmmeWS() {
-        this.Url = "http://192.168.7.8/pmmeWS.php";
+        this.Url = "http://192.168.1.48/pmmeWS.php";
     }
     
     /// <remarks/>

@@ -44,13 +44,13 @@ namespace XPMMS
         {
             Label header = new Label
             {
-                Text = "Project Management Made Easy App!",
+                Text = "Project Management Made Easy\n!",
                 TextColor = Color.White,
                 FontSize = 25,
                 MinimumHeightRequest = 0
             };
 
-            Padding = new Thickness(10, Device.OnPlatform(10, 0, 0), 10, 5);
+            Padding = new Thickness(10, Device.OnPlatform(5, 0, 0), 10, 0);
 
             Button btnProfile = new Button
             {
@@ -103,6 +103,7 @@ namespace XPMMS
 
             Content = new StackLayout
             {
+                Padding = new Thickness(10, Device.OnPlatform(2, 0, 0), 10, 0),
                 Children =
                 {
                     header,
